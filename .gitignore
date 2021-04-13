@@ -1,0 +1,10 @@
+cache/*
+authorized_keys
+id_rsa
+id_rsa.pub
+
+jbuild.sh
+jstart.sh
+jrun.sh
+dev-README.md
+jtest.sh

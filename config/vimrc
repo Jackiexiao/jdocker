@@ -1,0 +1,323 @@
+" 这个vim配置参考了：https://www.jianshu.com/p/f0513d18742a/
+" 有不少插件的使用说明都需要看vim插件的github主页
+" F5 运行代码
+" F6 格式化代码
+" F7 代码格式检查(使用flake8)
+" F8 显示tagbar
+" F9 进入表格编辑模式
+" <C-n> 显示文件夹目录
+" <C-l> 注释代码
+"
+" 安装vim 8.0 的方法
+" sudo add-apt-repository ppa:jonathonf/vim
+" sudo apt update
+" sudo apt install vim
+" 卸载vim 8.0 的方法
+" sudo apt install ppa-purge && sudo ppa-purge ppa:jonathonf/vim
+" ----------你可以可以同时安装SpaceVim----
+"  git clone https://github.com/SpaceVim/SpaceVim.git ~/.SpaceVim
+"  alias svim='vim -u ~/.SpaceVim/vimrc'
+"---------基础偏好设置-------------
+"<leader> default measn key '\'
+"let mapleader=" "
+"let mapleader=','
+syntax on            " 开启语法高亮
+set term=screen-256color
+set nocompatible     " 去掉vi的一致性
+set laststatus=2     " 命令行为2行
+set nu               " 设置显示行号
+set mouse=a          " 启用鼠标
+set relativenumber   " 设置相对行号
+set hlsearch         " 高亮搜索结果
+set ignorecase       " 搜索时忽略大小写
+set cursorline       " 突出显示当前行：在当前行下显示横线，方便确认位置
+set cursorcolumn     " 突出显示当前列
+set encoding=utf-8   " 使用 utf-8 编码
+set showmatch        " 显示匹配的括号
+set smartcase        " 输入有大写的英文字母时，变成大小写敏感
+set incsearch        " 搜索时自动匹配候选对象
+"set background=dark  " 设置背景颜色
+" ------python pep8 indent----------------
+au BufNewFile,BufRead *.py
+\ set textwidth=79  " lines longer than 79 columns will be broken
+\ set shiftwidth=4  " operation >> indents 4 columns; << unindents 4 columns
+\ set tabstop=4     " a hard TAB displays as 4 columns
+\ set expandtab     " insert spaces when hitting TABs
+\ set softtabstop=4 " insert/delete 4 spaces when hitting a TAB/BACKSPACE
+\ set shiftround    " round indent to multiple of 'shiftwidth'
+\ set autoindent    " align the new line indent with the previous line
+
+"end of set python
+
+au BufNewFile,BufRead *.js,*.html,*.css,*.vue
+\ set tabstop=2 |
+\ set softtabstop=2 |
+\ set shiftwidth=2
+
+" ------------保存文件后依然能undo-----注意你首先需要创建一个文件夹 $HOME/.vim/undo-----
+if has('persistent_undo')      "check if your vim version supports it
+	set undofile                 "turn on the feature
+	set undodir=$HOME/.vim/undo  "directory where the undo files will be stored
+endif
+
+" --------------记住上一次修改位置----------
+" Uncomment the following to have Vim jump to the last position when
+" reopening a file
+if has("autocmd")
+	au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
+filetype off                     " Vundle 插件required
+
+" -------------------Vundle设置----------------------------
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#rc()
+" alternatively, pass a path where Vundle should install plugins
+"let path = '~/some/path/here'
+"call vundle#rc(path)
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" ------------vim 插件推荐--------------
+"  Ie would be better to manually instal YouCompleteMe and python-mode plugin
+"Plugin 'vim-syntastic/syntastic'        " 自动检查语法错误-但这个感觉不大好，比ale要慢
+Plugin 'w0rp/ale'                        "语法检查，记得vim version >8.0
+Plugin 'bling/vim-airline'               "让vim下面的信息条更好看 这个比Powerline更好
+Plugin 'flazz/vim-colorschemes'          "vim schemes颜色主题
+Plugin 'nvie/vim-flake8'                 "PEP8 checking 和语法检查 按F7即可
+Plugin 'scrooloose/nerdtree'             "browse file directory in vim
+Plugin 'scrooloose/nerdcommenter'        " quick comment using <leader>ci 绑定快捷键为<C-l>了
+Plugin 'skywind3000/asyncrun.vim'        "在文件内执行Python代码
+Plugin 'ekalinin/Dockerfile.vim'         "高亮dockerfile文件
+Plugin 'Yggdroot/indentLine'             "用|来展示缩进对齐
+Plugin 'jiangmiao/auto-pairs'            "自动添加对应的括号
+Plugin 'kien/ctrlp.vim'                  " ctrl + p to fuzzy search file in vim
+Plugin 'majutsushi/tagbar'               " tagbar 使用F8浏览 代码中的tag
+"Plugin 'tell-k/vim-autopep8'             " 输入:Autopep8 就可以自动格式化python代码 ，但是这个不如vim-autoformat
+Plugin 'Chiel92/vim-autoformat'          " 更好的代码规范化，支持多种语言，首先你需要根据官网下载不同语言对应的依赖
+" 对于python 使用pip install yapf
+"Plugin 'ervandew/supertab'               "<C-n> <C-p>朴素的tab补全插件，没有语义分析，不想装YCM可以装这个
+"Plugin 'python-mode/python-mode'         " python ide help doc see :help python-mode
+"Plugin 'posva/vim-vue'                   "vue.js syntax highlight
+Plugin 'plasticboy/vim-markdown'         "让vim支持markdown语法的高亮 :help fold-commands && :vert help xxx
+"Plugin 'tmhedberg/SimpylFold'            " 简单快速折叠
+Plugin 'Valloric/YouCompleteMe'          "自动补全插件，杀手级插件
+"Plugin 'maralla/completor.vim'
+"代替YouCompleteMe的选择，需要vim8，它兼容了ultisnips
+Plugin 'junegunn/vim-easy-align'         " vim 对齐文本插件
+Plugin 'dhruvasagar/vim-table-mode'      " vim表格模式，便于快速创建和编辑表格
+Plugin 'SirVer/ultisnips'                "vim snippets engine :vert help ultisnips
+Plugin 'honza/vim-snippets'              " Snippets are separated from the engine. Add this if you want them:
+"Plugin 'ervandew/supertab'               "解决ultisnips和YouComplete冲突问题，但是其实我还不确定具体的用处？
+" ------------------------auto-pairs--------------------------------------
+let g:AutoPairsFlyMode = 0                " Fly Mode will always force closed-pair jumping instead of inserting. only for ")", "}", "]"
+"-----------------------vim-table-mode-----------------------------------------
+" Use visual select and :Tableize\{pattern}  pattern default is , to tableize 
+" :TableModeToggle enter mode, or use <leader>tm
+" GFW Github Markdown format
+let g:table_mode_corner='|'
+let g:table_mode_border=0
+let g:table_mode_fillchar=' '
+" Map short cut
+nmap <F9> :TableModeToggle<CR>
+" ----------------------vim-easy-align setting----------------------------------
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+"" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+" --------------vim snippet setting  兼容性设置-compatible-----------------------
+" make YCM compatible with UltiSnips (using supertab)
+" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+" let g:SuperTabDefaultCompletionType = '<C-n>'
+"
+" --------------vim snippet setting -----------------------
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+"let g:UltiSnipsExpandTrigger="<tab>"
+" default snippet dir is  ~/.vim/bundle/vim-snippets/UltiSnips/
+" my snippets dir  is  ~/.vim/mysnippets
+let g:UltiSnipsExpandTrigger="<c-o>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+let g:UltiSnipsSnippetDirectories=["UltiSnips","mysnippets"]
+
+" If you want :UltiSnipsEdit to split your window.
+" let g:UltiSnipsEditSplit="vertical"
+" ----------------tagbar------------------------
+"  绑定快捷键
+nmap <F8> :TagbarToggle<CR>
+" ----------------auto-format设置------------
+noremap <F6> :Autoformat<CR>       "F6格式化代码
+"au BufWrite *.py :Autoformat          "保存文件的时候自动格式化，去掉py则对所有文件生效，因为这个处理要花点时间算了..
+let g:formatter_yapf_style='pep8'  " 或者其他值，比如 google facebook chromium
+let g:autoformat_verbosemode=1
+" ----------------markdown插件设置------------
+"  zr: reduces fold level throughout the buffer
+"  zR: opens all folds
+"  zm: increases fold level throughout the buffer
+"  zM: folds everything all the way
+"  za: open a fold your cursor is on
+"  zA: open a fold your cursor is on recursively
+"  zc: close a fold your cursor is on
+"  zC: close a fold your cursor is on recursively
+let g:vim_markdown_conceal = 0              "不隐藏markdown符号
+let g:vim_markdown_conceal_code_blocks = 0  "不隐藏代码符号
+let g:vim_markdown_toc_autofit = 1          "自动调整目录大小，:Toc 开启目录
+"let g:vim_markdown_folding_style_pythonic = 1 "跟插件python-mode类似的折叠方式
+let g:vim_markdown_folding_level = 3        "折叠层级
+"let g:vim_markdown_folding_disabled = 1     "不自动折叠
+" ----------------flake8 设置-----------------
+" If you want to check every time you write a file
+" autocmd BufWritePost *.py call flake8#Flake8()
+" Change shortcut to F3 default is F7 
+" autocmd FileType python map <buffer> <F3> :call flake8#Flake8()<CR>
+let g:flake8_show_in_file=0        "在vim行的开头显示
+let g:flake8_show_in_gutter=1      "在vim沟槽中显示
+let g:flake8_show_quickfix=1       " 是否显示quickfix
+let g:flake8_quickfix_height=7
+let g:flake8_quickfix_location="topleft" "quickfix在左上角
+let g:flake8_error_marker='EE'     " set error marker to 'EE'
+let g:flake8_warning_marker='WW'   " set warning marker to 'WW'
+let g:flake8_pyflake_marker=''     " disable PyFlakes warnings
+let g:flake8_complexity_marker=''  " disable McCabe complexity warnings
+let g:flake8_naming_marker=''      " disable naming warnings
+" ----------------leader 设置 -----------------
+" nnoremap <leader>d dd
+" ----------------ale 设置----------------
+"  在错误之间跳转
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
+"let g:ale_linters = {'python': ['flake8'], 'reStructuredText': ['rstcheck']}
+let g:ale_linters = {'python': ['yapf']}
+"let g:ale_fixers = {'python': ['remove_trailing_lines', 'trim_whitespace', 'autopep8']}
+
+" ---------------自动折叠------------------
+" Enable folding
+"set foldmethod=indent
+" 如果不想默认折叠，请将下面的注释掉
+"set foldlevel=99
+"
+" Enable folding with the spacebar, btw, the default setting is za
+"nnoremap <space> za
+"
+" 希望看到折叠代码的文档字符串？
+" let g:SimpylFold_docstring_preview=1
+
+" ----------------python-mode 设置 ------------
+"let g:pymode_python = 'python3'
+
+" ---------------颜色主题------------------
+" colorscheme molokai
+
+" --------------YouCompleteMe配置---------
+" nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
+" nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
+" nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" map <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" --------------缩进对齐 ----Yggdroot/indentLine --------
+let g:indentLine_char='┆'        "缩进指示线，这个对于python很有用
+let g:indentLine_enabled = 1     "启用缩进指示线
+
+" --------------python ide----------------
+let g:pymode_python = 'python3'
+let g:pymode_syntax_space_errors = 0
+" use python3 syntax checking
+
+"
+"----------注释comment-------nerdcommenter
+map <C-l> <leader>ci
+"map <C-l> <leader>ci<CR>  "同时跳到下一行
+"用F4来取代<leader>ci作注释
+
+" ---------nerdtree 设置 ------------
+map <C-n> :NERDTreeToggle<CR>
+" 设置ctrl-n打开侧边栏的文件夹浏览器
+" autocmd vimenter * NERDTree
+" 每次打开vim的时候自动打开Nerdtree,感觉没有必要，所以这里没有开启
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+
+" ----------显示不必要的空格----------
+"Flagging Unnecessary Whitespace
+"highlight BadWhitespace ctermbg=red guibg=darkred
+"au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+"-------- F5 自动运行代码相关配置----------
+" Quick run via <F5>
+nnoremap <F5> :call <SID>compile_and_run()<CR>
+" set the quickfix window 6 lines height.
+let g:asyncrun_open = 6
+"
+" ring the bell to notify you job finished
+" let g:asyncrun_bell = 1
+
+" ----------F10 打开quickfix window ----
+"" F10 to toggle quickfix window
+nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>"
+" "
+
+function! s:compile_and_run()
+	exec 'w'
+	if &filetype == 'c'
+		exec "AsyncRun! gcc % -o %<; time ./%<"
+	elseif &filetype == 'cpp'
+		exec "AsyncRun! g++ -std=c++11 % -o %<; time ./%<"
+	elseif &filetype == 'java'
+		exec "AsyncRun! javac %; time java %<"
+	elseif &filetype == 'sh'
+		exec "AsyncRun! time bash %"
+	elseif &filetype == 'python'
+		exec "AsyncRun! time python %"
+	endif
+endfunction
+" augroup SPACEVIM_ASYNCRUN
+"     autocmd!
+"    " Automatically open the quickfix window
+"     autocmd User AsyncRunStart call asyncrun#quickfix_toggle(15, 1)
+" augroup END
+"
+" asyncrun now has an option for opening quickfix automatically
+let g:asyncrun_open = 15
+
+" ------vundle 必要设置-----------
+filetype plugin indent on     " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList          - list configured plugins
+" :PluginInstall(!)    - install (update) plugins
+" :PluginSearch(!) foo - search (or refresh cache first) for foo
+" :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
+"
+" see :h vundle for more details or wiki for FAQ
+" NOTE: comments after Plugin commands are not allowed.
+" Put your stuff after this line
+"
+" -------ubuntu下解决中文输入法返回normal环境的切换问题---------
+" ------参考链接：https://www.jianshu.com/p/d6067b47cec4-------
+let g:input_toggle = 1
+function! Fcitx2en()
+	let s:input_status = system("fcitx-remote")
+	if s:input_status == 2
+		let g:input_toggle = 1
+		let l:a = system("fcitx-remote -c")
+	endif
+endfunction
+
+function! Fcitx2zh()
+	let s:input_status = system("fcitx-remote")
+	if s:input_status != 2 && g:input_toggle == 1
+		let l:a = system("fcitx-remote -o")
+		let g:input_toggle = 0
+	endif
+endfunction
+
+set timeoutlen=150
+autocmd InsertLeave * call Fcitx2en()
+"autocmd InsertEnter * call Fcitx2zh()
