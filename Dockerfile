@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM taco-tf15
 
 # 安装界面无需交互
 ENV DEBIAN_FRONTEND=noninteractive
@@ -128,7 +128,7 @@ RUN unzip -o /tmp/ohmyzsh-master.zip && \
     mv fzf-master ~/.fzf && \
     mv /tmp/fzf ~/.fzf/bin && \
     chmod +x ~/.fzf/bin/fzf && \
-    ~/.fzf/install && \
+    ~/.fzf/install --all && \
     rm -rf /tmp/*
 
 ###########################################################
