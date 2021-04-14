@@ -1,15 +1,10 @@
 # Docker开发环境
-适用于 ubuntu 的，可 vscode 远程连接的 Docker 开发环境 Dockerfile 示例，用户可基于此 Dockerfile 修改并创建自己的镜像
+适用场景: window 或 mac 通过vscode远程连接使用安装了docker环境的linux服务器进行开发，用户可基于此 Dockerfile 修改并创建自己的镜像
 
-## 为什么要用docker搭建开发环境?
-适用场景: window 或 mac 远程连接使用安装了docker环境的linux服务器进行开发
-
-* 某些场景下搭建开发环境很耗时，有docker能够显著减少你在以下场景中所花费的时间
-    * 拥有多个开发服务器
-    * 有不同开发环境的项目（例如 tensorflow / pytorch ）
-    * 希望多个同事有相似的开发环境
-    * 开发环境配置复杂
-    * 换了工作，电脑
+* 某些场景下搭建开发环境很耗时，有docker能够显著减少配置环境所花费的时间，例如当你
+    * 拥有多个开发服务器和需要不同开发环境的项目
+    * 开发环境配置复杂，而且希望他人能够复用
+    * 换了工作，电脑，需要重新配置
     * ...
 ## 特性
 * vscode
@@ -81,6 +76,17 @@ Host key verification failed.
 
 ## 使用技巧
 有时间的话，建议到相应的github仓库去看使用说明，下面仅介绍简要的功能
+
+### fzf
+来源: https://github.com/junegunn/fzf#key-bindings-for-command-line
+
+`Alt+C` 快速跳转文件夹是我最喜欢的功能
+
+* `alt+c` 模糊搜索HOME下文件夹，实现快速跳转 （HOME路径可在 `build_image` 的 fzf_search_dir中配置）
+* `ctrl+t` 模糊搜索HOME下文件，快速得到文件路径，在vscode终端下，我经常使用 `code -r ctrl+T` 的方式来快速访问文件
+* `vi **[tab]` 模糊搜索当前路径下的文件，并用vim打开
+* `cd **[tab]` 模糊搜索当前路径下的文件夹，并跳转
+
 ### oh my zsh
 来源: https://github.com/ohmyzsh/ohmyzsh
 
@@ -91,14 +97,6 @@ Host key verification failed.
     * `gcmsg` git commit -m
     * ...还有一大堆...
     * 请阅读: https://github.com/ohmyzsh/ohmyzsh/wiki/Cheatsheet
-
-### fzf
-来源: https://github.com/junegunn/fzf#key-bindings-for-command-line
-
-* `alt+c` 模糊搜索HOME下文件夹，实现快速跳转 （HOME路径可在 `build_image` 的 fzf_search_dir中配置）
-* `ctrl+t` 模糊搜索HOME下文件，快速得到文件路径，在vscode终端下，我经常使用 `code -r ctrl+T` 的方式来快速访问文件
-* `vi **[tab]` 模糊搜索当前路径下的文件，并用vim打开
-* `cd **[tab]` 模糊搜索当前路径下的文件夹，并跳转
 
 ### vimrc
 来源: https://github.com/amix/vimrc
