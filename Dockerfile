@@ -1,5 +1,4 @@
-FROM taco-tf15
-
+FROM ubuntu:18.04
 # 安装界面无需交互
 ENV DEBIAN_FRONTEND=noninteractive
 ENV HOME /root
