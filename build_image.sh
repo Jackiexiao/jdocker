@@ -8,7 +8,7 @@
 # base_image=ufoym/deepo:pytorch-py36-cpu
 base_image="ubuntu:18.04"
 
-sed -i "s/FROM.*/FROM ${base_image}/g" Dockerfile
+sed -i "s|FROM.*|FROM ${base_image}|g" Dockerfile
 
 # docker 镜像名称与版本号
 docker_image_name=jdocker
