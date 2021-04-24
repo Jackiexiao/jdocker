@@ -80,7 +80,7 @@ Host key verification failed.
 ### fzf
 来源: https://github.com/junegunn/fzf#key-bindings-for-command-line
 
-`Alt+C` 快速跳转文件夹是我最喜欢的功能
+`Alt+C` 快速跳转文件夹是我最喜欢的功能，不过你需要在vscode `ctrl k + ctrl s`打开快捷键设置，将冲突的快捷键（默认是toggle搜索的大小写敏感）删除，就可以在终端中使用这个快捷键了
 
 * `alt+c` 模糊搜索HOME下文件夹，实现快速跳转 （HOME路径可在 `build_image` 的 fzf_search_dir中配置）
 * `ctrl+t` 模糊搜索HOME下文件，快速得到文件路径，在vscode终端下，我经常使用 `code -r ctrl+T` 的方式来快速访问文件

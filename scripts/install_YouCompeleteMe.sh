@@ -30,3 +30,7 @@ python3 install.py
 sudo apt-get install tofrodos; sudo ln -s /usr/bin/fromdos /usr/bin/dos2unix ; 
 dos2unix /root/.vim_runtime/sources_non_forked/YouCompleteMe/plugin/youcompleteme.vim
 dos2unix /root/.vim_runtime/sources_non_forked/YouCompleteMe/autoload/youcompleteme.vim
+
+
+# 更改了gcc，还需要进入相应的项目 clean 一下 
+# bazel clean --expunge， 或者 rm -rf ~/.cache/bazel
