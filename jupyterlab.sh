@@ -24,6 +24,7 @@ mamba install -c conda-forge jupyterlab -y
 
 # xeus-cling # C++ 类似 jupyter python 服务
 mamba install xeus-cling -c conda-forge -y
+# 也可以不通过 miniconda 来安装这个，见: https://github.com/pojntfx/xeus-cling-binaries
 
 # jupyterlab Kite 自动补全 插件， 来源 : https://github.com/kiteco/jupyterlab-kite
 bash -c "$(wget -q -O - https://linux.kite.com/dls/linux/current)"
@@ -45,6 +46,7 @@ jupyter lab --no-browser  --ip=0.0.0.0 --NotebookApp.token=""
 ##################
 ####  插件  ####
 ##################
+# 完整的，兼容性插件列表见: https://github.com/jupyterlab/jupyterlab/issues/9461
 
 # 另一种安装插件的方法
 # jupyter labextension install @jupyterlab/...
@@ -61,7 +63,7 @@ jupyter lab --no-browser  --ip=0.0.0.0 --NotebookApp.token=""
 ####  nodejs ####
 ##################
 
-# 如果插件 需要 node.js 和 npm
+# 如果用到 老版本的插件 需要 node.js 和 npm
 # 安装方法
 # ```
 # sudo apt -y install curl dirmngr apt-transport-https lsb-release ca-certificates
@@ -74,6 +76,7 @@ jupyter lab --no-browser  --ip=0.0.0.0 --NotebookApp.token=""
 ##################
 
 # Jupyter Lab 快捷键
+# Ctrl Shift C 命令面板
 # ctrl shift [ / ] 切换tab页
 # Ctrl+Shift+L 打开起始页
 # Ctrl+s 保存
@@ -83,3 +86,9 @@ jupyter lab --no-browser  --ip=0.0.0.0 --NotebookApp.token=""
 # C 复制选中的cell
 # V 粘贴选中的cell
 # 双击D 删除选中的cell
+
+##################
+####  颜色主题  ####
+##################
+# 貌似目前只有这款支持 3.0
+# pip install theme-darcula

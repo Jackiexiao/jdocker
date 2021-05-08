@@ -1,9 +1,9 @@
 ###########################################################
 #                    配置Docker容器                         #
 ###########################################################
-container_name=jdocker-daemon
 image_name=jdocker
 version="ubuntu_18.04"
+container_name="${image_name}_${version}"
 
 # ssh 端口
 host_port=8028
@@ -19,6 +19,7 @@ docker rm -f $container_name
 ###########################################################
 #                    创建Docker容器                         #
 ###########################################################
+# ! WARNING 这里挂载了 HOME 目录，如果不是你所期望的，请删除
 docker run \
     -itd \
     --runtime=nvidia \
@@ -29,7 +30,7 @@ docker run \
     --restart=always \
     --name ${container_name} \
     $image_name:$version
-    
+
 # 配置含义
     # -d daemon : 后台运行
     # --ipc=host : 与主机共享内存

@@ -30,6 +30,11 @@
 ## 使用
 简而言之，选择一个基于ubuntu系统的基础镜像，然后通过Dockerfile构建开发环境的镜像，最后通过vscode连接容器进行开发
 
+### 前提条件
+* linux服务器 / ubuntu，安装有docker，用户非root，且有docker权限
+* 基础镜像为 ubuntu 18.04
+
+### 安装
 0. `./download.sh` 首先下载相关的库，避免之后构建镜像时遇到网络问题
 1. 进入`build_image.sh`中按照提示修改成符合自己的配置
     * 可以修改Dockerfile的基础镜像（目前在ubuntu18和tf2.+ docker 中测试通过）
