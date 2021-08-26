@@ -1,3 +1,5 @@
+ps: 现在这个有点bug，有空我再改改...上传上来，你要是会docker，可以在我基础上自己折腾
+
 # Docker开发环境
 适用场景: window 或 mac 通过vscode远程连接使用安装了docker环境的linux服务器进行开发，用户可基于此 Dockerfile 修改并创建自己的镜像
 
