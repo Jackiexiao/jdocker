@@ -1,0 +1,4 @@
+# fd 搜索时会忽略下面的文件
+**/*temp*
+anaconda*
+miniconda*

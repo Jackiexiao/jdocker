@@ -2,9 +2,6 @@ cache/*
 authorized_keys
 id_rsa
 id_rsa.pub
-
-jbuild.sh
-jstart.sh
-jrun.sh
+.env
 dev-README.md
-jtest.sh
+reference

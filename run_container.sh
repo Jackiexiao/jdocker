@@ -1,19 +1,7 @@
-###########################################################
-#                    配置Docker容器                         #
-###########################################################
-image_name=jdocker
-version="ubuntu_18.04"
-container_name="${image_name}_${version}"
-
-# ssh 端口
-host_port=8028
-container_port=22
-
-# jupyter notebook 端口
-jupyter_host_port=8100
-jupyter_container_port=8888
-
-# 删除旧docker
+#!/bin/bash
+source .env
+# 删除旧docker  
+# TODO 临时测试用
 docker rm -f $container_name
 
 ###########################################################
@@ -24,25 +12,23 @@ docker run \
     -itd \
     --runtime=nvidia \
     --ipc=host \
+    --privileged \
+    --ulimit core=-1 \
     -v $HOME:$HOME \
-    -p $host_port:$container_port \
-    -p $jupyter_host_port:$jupyter_container_port \
+    -p $ssh_host_port:$ssh_container_port \
+    -p $extra_host_port:$extra_container_port \
     --restart=always \
     --name ${container_name} \
-    $image_name:$version
+    $docker_image_name
 
 # 配置含义
     # -d daemon : 后台运行
     # --ipc=host : 与主机共享内存
     # --restart=always : docker意外重启时，容器也会重启
 
-# 服务器中测试 docker
-    # `$ docker port [your_container_name] {container_port}`
-    # 输出: # 0.0.0.0:{host_port}
-    # 最后测试能否用SSH连接到远程docker：
-    # `$ ssh root@[your_host_ip] -p {host_port}`
+# 测试能否用SSH连接到容器
+# `$ ssh root@[your_host_ip] -p {host_port}`
 
 # 进入docker
-docker exec -it -u $USER $container_name zsh
-# 或者通过 ssh / vscode 连接
-# ssh $USER@host_ip -p $host_port
+# docker exec -it -u $USER $container_name zsh
+docker exec -it $container_name zsh
