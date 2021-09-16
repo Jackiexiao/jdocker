@@ -36,19 +36,17 @@ RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list &
 ###########################################################
 # bazel
 # 参考: https://docs.bazel.build/versions/master/install-ubuntu.html#install-with-installer-ubuntu
+# buildifier 检查和格式化 WORKSPACE .bzl BUILD 文件
+# 然后在setting.json中设置   
+# "bazel.buildifierExecutable": "/usr/local/bin/buildifier-linux-amd64",
 ADD cache/bazel-4.0.0-installer-linux-x86_64.sh /tmp
 ADD cache/buildifier-linux-amd64 /usr/local/bin
 RUN apt update && \
     apt-get install -y openjdk-11-jdk && \
     chmod +x /tmp/bazel-4.0.0-installer-linux-x86_64.sh && \
     bash /tmp/bazel-4.0.0-installer-linux-x86_64.sh && \
+    chmod +x /usr/local/bin/buildifier-linux-amd64 && \
     apt clean && rm -rf /tmp/*
-
-# buildifier 检查和格式化 WORKSPACE .bzl BUILD 文件
-ADD cache/buildifier-linux-amd64 /usr/local/bin
-RUN chmod +x /usr/local/bin/buildifier-linux-amd64
-# 然后在setting.json中设置   
-# "bazel.buildifierExecutable": "/usr/local/bin/buildifier-linux-amd64",
 
 ###########################################################
 #             tmux / zsh / htop / oh-my-zsh / fzf         #
@@ -86,13 +84,6 @@ RUN unzip -o /tmp/ohmyzsh-master.zip && \
 ###########################################################
 #                     python                          #
 ###########################################################
-
-# ln -sf : f, force，覆盖基础镜像中的设置
-# RUN apt-get update && \
-#     apt-get install -y python3-pip python3-dev && \
-#     cd /usr/local/bin && \
-#     ln -sf /usr/bin/python3 python && \
-#     ln -sf /usr/bin/pip3 pip 
 
 ########## miniconda && poetry ###########
 ENV PATH="/root/miniconda3/bin:${PATH}"
