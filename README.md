@@ -25,18 +25,22 @@
   - [vimrc](https://github.com/amix/vimrc.git)
   - tmux htop
   - git 配置
-- C++
-  - cmake / bazel
-- python
-  - poetry / miniconda / 镜像源设置
 - 基本的初始化
   - 中文时区 + 中文编码
   - 基础包 如 curl git vim
 - 构建镜像前先下载相应的安装包，避免构建时可能的网络问题
+- 支持的镜像
+  - ubuntu18.04-python3.8.Dockerfile
+    - poetry & pip 镜像
+  - 其余的Dockerfile未测试
 
 ## 使用
 
 简而言之，选择一个基于 ubuntu 系统的基础镜像，然后通过 Dockerfile 构建开发环境的镜像，最后通过 vscode 连接容器进行开发
+
+### 最佳实践
+1. 不推荐挂载本地目录，因为这样不方便共享 docker 开发容器，建议将项目通过 git 下载代码
+2. 一个项目一个开发环境就够了，一个项目不要同时开发多个环境
 
 ### 构建镜像
 
@@ -48,16 +52,10 @@
   - `./download-zh.sh` 中国网络环境特供版...(换了镜像)
   - `./download.sh` 正常下载版
 - 修改配置 `cp env .env` 拷贝文件后在`.env`中修改自己的设置，
-  - 修改基础镜像 （目前在 ubuntu18 和 tf2.+ docker 中测试通过）
 - 查看 `Dockerfile`, 删除不需要的配置，例如基础镜像中已经有 python，可以删掉 python 部分
 - `./build_image.sh`构建镜像
 - `./run_container.sh`根据镜像创建一个开发容器
 
-#### 配置
-
-如果你基于 tensorflow 镜像，miniconda 会覆盖 tensorflow docker python 的配置
-你可以自行改回原来的 tensorflow 的 python，路径在`/usr/local/bin/python`
-或者干脆在 Dockerfile 中删除 miniconda
 
 #### 个人镜像
 
@@ -234,6 +232,7 @@ Host key verification failed.
 - 解决方法，删除`.ssh/known_hosts`对应 ip + port 地址的配置即可
 - 原因:每个容器中的 ssh 都会生成唯一的 /etc/ssh/ssh_host_ecdsa_key.pub
   - 报错信息对应的`the ECDSA key` 通过命令 `ssh-keygen -lf /etc/ssh/ssh_host_ecdsa_key.pub`生成，当你变更了容器，但使用了相同的 port 端口，就会出现上面的报错，因为这个 key 对应不上了，系统怀疑是中间人攻击。
+
 
 # 参考
 

@@ -1,12 +1,7 @@
 # 配置，请修改配置，并保存为 `.env` 文件
-base_build_image="ubuntu:18.04" # Dockerfile 所使用的基础镜像
 
-# 可以替换成其他基于 ubuntu 的镜像
-# base_build_image="pytorch/pytorch:1.8.0-cuda11.1-cudnn8-devel"
-# base_build_image="tensorflow/tensorflow:latest-devel-gpu"
-# base_build_image="ufoym/deepo:pytorch-py36-cpu"
-
-docker_image_name="jdev:ubuntu18" # 生成镜像的名称
+dockerfile_name="ubuntu18.04-python3.8.Dockerfile" # 你需要创建的docker
+docker_image_name="jdev:ubuntu18-py38" # 生成镜像的名称
 container_name="jdev-example" # 生成容器的名称
 
 # Git
@@ -15,9 +10,6 @@ git_user_email=your@email.com
 
 # username & passwd
 root_passwd=123456
-user=$USER
-uid=`id -u $USER`
-user_passwd=123456
 
 # Port
 ssh_host_port=8035 # ssh 通过这个端口连接docker

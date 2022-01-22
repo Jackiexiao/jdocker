@@ -3,5 +3,4 @@ authorized_keys
 id_rsa
 id_rsa.pub
 .env
-dev-README.md
 reference

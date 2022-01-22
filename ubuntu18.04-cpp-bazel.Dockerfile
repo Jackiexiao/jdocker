@@ -1,5 +1,4 @@
-ARG BASE_BUILD_IMAGE
-FROM ${BASE_BUILD_IMAGE}
+FROM ubuntu:18.04
 # 安装界面无需交互
 ENV DEBIAN_FRONTEND=noninteractive
 ENV HOME /root
@@ -79,30 +78,6 @@ RUN unzip -o /tmp/ohmyzsh-master.zip && \
     chmod +x ~/.fzf/bin/fzf && \
     ~/.fzf/install --all && \
     dpkg -i /tmp/fd-musl_8.2.1_amd64.deb && \
-    rm -rf /tmp/*
-
-###########################################################
-#                     python                          #
-###########################################################
-
-########## miniconda && poetry ###########
-ENV PATH="/root/miniconda3/bin:${PATH}"
-ARG PATH="/root/miniconda3/bin:${PATH}"
-ADD cache/Miniconda3-latest-Linux-x86_64.sh /tmp
-
-RUN mkdir /root/.conda && \
-    bash /tmp/Miniconda3-latest-Linux-x86_64.sh -b && \
-    /root/miniconda3/bin/conda init zsh && \
-    /root/miniconda3/bin/conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/ && \
-    rm -rf /tmp/*
-
-########## poetry ###########
-ADD cache/install-poetry.py /tmp
-RUN python /tmp/install-poetry.py -y && \
-    export PATH="/root/.local/bin:$PATH" && \
-    echo 'export PATH="/root/.local/bin:$PATH"' >> ~/.zshrc && \
-    /root/.local/bin/poetry config virtualenvs.create false && \
-    pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/ && \
     rm -rf /tmp/*
 
 ###########################################################
