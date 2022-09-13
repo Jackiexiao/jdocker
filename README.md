@@ -1,5 +1,7 @@
 # 好用的 Docker 开发环境
 
+推荐类似 repo: [envd](https://github.com/tensorchord/envd)
+
 - 开发环境，一次构建，多处使用
 - 可 vscode 远程连接(remote)
 - 配置 vim/oh-my-zsh/fzf/python/C++
@@ -36,7 +38,7 @@
 
 ## 使用
 
-简而言之，选择一个基于 ubuntu 系统的基础镜像，然后通过 Dockerfile 构建开发环境的镜像，最后通过 vscode 连接容器进行开发
+简而言之，选择一个基于 ubuntu 系统的基础镜像，然后通过 Dockerfile 构建开发环境的镜像，最后通过 vscode 连接容器进行开发, 如果希望 docker 内使用 docker, docker run 的时候加上 `-v /var/run/docker.sock:/var/run/docker.sock `
 
 ### 最佳实践
 1. 不推荐挂载本地目录，因为这样不方便共享 docker 开发容器，建议将项目通过 git 下载代码
