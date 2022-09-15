@@ -1,6 +1,6 @@
-# 好用的 Docker 开发环境
+此项目不再维护，推荐使用  [envd](https://github.com/tensorchord/envd) 创建自己的开发环境
 
-推荐类似 repo: [envd](https://github.com/tensorchord/envd)
+# Docker 开发环境
 
 - 开发环境，一次构建，多处使用
 - 可 vscode 远程连接(remote)
